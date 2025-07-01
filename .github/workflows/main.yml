@@ -1,0 +1,31 @@
+name: test_eplbuild
+
+on:
+#    workflow_dispatch:
+  [workflow_dispatch,push]
+
+permissions:
+  contents: read
+
+jobs:
+  test_build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+    - uses: actions/checkout@v4
+      
+    - name: Build test.e
+      uses: WmFreeSmile/eplbuild@v1
+      with:
+        file: ./test.e
+        output: ./test.o
+      
+    - name: Show result
+      run: dir
+      
+    - name: Upload result
+      uses: actions/upload-artifact@v4
+      with:
+        name: result
+        path: ${{ github.workspace }}/test.o
+        
