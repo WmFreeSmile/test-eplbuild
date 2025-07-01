@@ -20,6 +20,10 @@ jobs:
         file: ./test.e
         output: ./test.o
       
+      
+    - name: Link test.o
+      run: ld -m i386pe --stack 1048576,1048576 -s -e _krnl_MMain -subsystem windows -o ./test.exe ./test.o ./lib/dll_call.o ./lib/krnln.lib ./lib/spec.lib -T ./lib/fbextra.x ./lib/crt2.o -L ./lib/ "-(" -lkernel32 -lgdi32 -lmsimg32 -luser32 -lversion -ladvapi32 -limm32 -lshell32 -lole32 -luuid -loleaut32 -lcomctl32 -luxtheme -lpsapi -lcomdlg32 -lshlwapi -lwinmm -lddraw -ldxguid -lgdiplus -lfb -lgcc -lmsvcrt -lmingw32 -lmingwex -lmoldname -lgcc_eh "-)"
+      
     - name: Show result
       run: dir
       
@@ -27,5 +31,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: result
-        path: ${{ github.workspace }}/test.o
+        path: ${{ github.workspace }}/test.exe
         
